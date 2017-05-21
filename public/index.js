@@ -8,9 +8,37 @@ var slytherin = []
 var app = function(){
   url = "http://hp-api.herokuapp.com/api/characters"
   makeRequest(url, afterRequest)
+  bind_events();
 
 }
 
+var bind_events = function(){
+  studentsStaffChart = document.getElementById("staff-students");
+  studentsStaffChart.addEventListener("click", showStaffAndStudents);
+  housesChart = document.getElementById("houses");
+  // housesChart.addEventListener("click", showStudentsByHouses);
+}
+
+var showStaffAndStudents = function(){
+  div = document.getElementById("staff-students-list")
+  var studentList = document.createElement("ul");
+  var staffList = document.createElement("ul");
+
+  students.forEach(function(student){
+    var name = document.createElement("li");
+    name.innerText = student.name;
+    studentList.appendChild(name)
+  })
+
+  staff.forEach(function(staff){
+  var name =  document.createElement("li");
+    name.innerText = staff.name;
+    staffList.appendChild(name)
+  })
+
+  div.appendChild(studentList)
+  div.appendChild(staffList)
+}
 var makeRequest = function(url, callback){
   var request = new XMLHttpRequest();
   console.log("request")
@@ -50,8 +78,6 @@ var afterRequest = function(){
   makeStudentStaffChart(students, staff);
   sortStudentsByHouse(students)
   makeHousesChart(gryffindor, ravenclaw, hufflepuff, slytherin)
-
-
   // listCharacters(characters)
 }
 
