@@ -1,5 +1,9 @@
 var staff = [];
 var students = [];
+var ravenclaw = []
+var gryffindor = []
+var hufflepuff = []
+var slytherin = []
 
 var app = function(){
   url = "http://hp-api.herokuapp.com/api/characters"
@@ -44,6 +48,9 @@ var afterRequest = function(){
 
   sortCharacters(characters);
   makeStudentStaffChart(students, staff);
+  sortStudentsByHouse(students)
+  makeHousesChart(gryffindor, ravenclaw, hufflepuff, slytherin)
+
 
   // listCharacters(characters)
 }
@@ -59,6 +66,55 @@ var sortCharacters = function(characters){
   })
 }
 
+var sortStudentsByHouse = function(characters){
+  characters.forEach(function(student){
+    if(student.house === "Gryffindor"){
+      gryffindor.push(student);
+    }
+    else if(student.house === "Slytherin"){
+      slytherin.push(student);
+    }
+    else if(student.house === "Hufflepuff"){
+      hufflepuff.push(student);
+    }
+    else if(student.house === "Ravenclaw"){
+      ravenclaw.push(student)
+    }
+  })
+}
+
+var makeHousesChart = function(gryffindor, ravenclaw, hufflepuff, slytherin) {
+
+  var series = [
+    {
+      name: "Students",
+      data: [
+        {
+          name: "Gryffindor",
+          y: gryffindor.length,
+          color:"red"
+        },
+        {
+          name: "Ravenclaw",
+          y: ravenclaw.length,
+          color: "blue"
+        },
+        {
+          name: "Slytherin",
+          y: slytherin.length,
+          color: "green"
+        },
+        {
+          name: "Hufflepuff",
+          y: hufflepuff.length,
+          color: "yellow"
+        }
+      ]
+    }
+  ]
+
+  new PieChart("Houses", series, "#houses")
+}
 // var listCharacters = function(characters){
 //   var list = document.getElementById('awesome');
 //   characters.forEach(function(character){
